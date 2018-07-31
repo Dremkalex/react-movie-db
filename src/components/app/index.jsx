@@ -2,42 +2,42 @@ import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 
 // servises
-import { fetchMoviesByCategory } from '../../servises/api';
+import fetchMoviesByCategory from '../../servises/api';
 
 // components
 import CategorySelector from '../category-selector';
-import selectorOptions from '../../selector-options.js';
+import selectorOptions from '../../selector-options';
 
 class App extends Component {
   state = {
-    movies: [],
     category: null,
-    isLoading: false,
-    error: null,
   };
 
-  changeCategory = category => this.setState({ category });
-
   componentDidUpdate(prevProps, prevState) {
-    if (!prevState.category) return;
-    const prevCategory = prevState.category.value;
-    const nextCategory = this.state.category.value;
+    const { category } = this.state;
+    const { value } = category;
 
-    if (prevCategory !== nextCategory) {
-      console.log('need to fetch');
+    if (!prevState.category) return;
+
+    const prevValue = prevState.category.value;
+
+    if (prevValue !== value) {
       fetchMoviesByCategory({
-        category: nextCategory,
+        category,
         onSuccess: this.handleFetchSuccess,
         onError: this.handleFetchError,
       });
     }
   }
 
+  changeCategory = category => this.setState({ category });
+
   handleFetchSuccess = () => console.log('Success');
+
   handleFetchError = () => console.log('Error');
 
   render() {
-    const { movies, category, isLoading, error } = this.state;
+    const { category } = this.state;
     return (
       <div>
         <p>Hello</p>

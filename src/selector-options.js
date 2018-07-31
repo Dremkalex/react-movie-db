@@ -1,13 +1,14 @@
-export default [{
+export default [
+  {
     value: 'popular',
-    label: 'Popular Movies'
+    label: 'Popular Movies',
   },
   {
     value: 'top_rated',
-    label: 'Top-rated Movies'
+    label: 'Top-rated Movies',
   },
   {
     value: 'upcoming',
-    label: 'Upcoming Movies'
+    label: 'Upcoming Movies',
   },
 ];
