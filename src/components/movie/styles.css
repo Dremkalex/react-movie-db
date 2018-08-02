@@ -11,3 +11,14 @@
 .img {
   display: block;
 }
+
+.buttonBox {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  padding: 8px;
+  background-color: #fff;
+  box-shadow: -2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+  border-radius: 0px 0px 0px 5px;
+}

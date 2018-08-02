@@ -5,6 +5,7 @@ import fetchMoviesByCategory from '../../servises/api';
 // components
 import CategorySelector from '../category-selector';
 import MovieList from '../movie-list';
+import SearchBar from '../search-bar';
 // options
 import selectorOptions from '../../selector-options';
 // styles
@@ -17,18 +18,16 @@ class App extends Component {
     error: null,
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const { category } = this.state;
-    if (!category) return true;
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   const { category } = this.state;
+  //   if (!category) return true;
 
-    const shouldUpdate = category.value !== nextState.category.value;
-    return shouldUpdate;
-  }
+  //   const shouldUpdate = category.value !== nextState.category.value;
+  //   return shouldUpdate;
+  // }
 
   componentDidUpdate(prevProps, prevState) {
     const { category } = this.state;
-    // console.log('prevState.category: ', prevState.category);
-    // console.log('this.state.category: ', category);
     // const { value } = category;
 
     if (!prevState.category) {
@@ -37,19 +36,18 @@ class App extends Component {
         onSuccess: this.handleFetchSuccess,
         onError: this.handleFetchError,
       });
-      console.log('aftermount category', category.value);
+
       return;
     }
 
-    const prevValue = prevState.category.value;
+    const prevCategory = prevState.category;
 
-    if (prevValue !== category.value) {
+    if (prevCategory.value !== category.value) {
       fetchMoviesByCategory({
         category: category.value,
         onSuccess: this.handleFetchSuccess,
         onError: this.handleFetchError,
       });
-      console.log('this.state.category.value: ', category.value);
     }
   }
 
@@ -60,7 +58,6 @@ class App extends Component {
   handleFetchError = error => this.setState({ error });
 
   render() {
-    console.log('render', Date.now());
     const { category, movies, error } = this.state;
     return (
       <div className={styles.wrapper}>
@@ -70,12 +67,19 @@ class App extends Component {
           </div>
         </aside>
         <main className={styles.main}>
-          <CategorySelector
-            value={category}
-            onChange={this.changeCategory}
-            options={selectorOptions}
-            placeholder="Choose category..."
-          />
+          <div className={styles.searhPanel}>
+            <div className={styles.searchForm}>
+              <CategorySelector
+                value={category}
+                onChange={this.changeCategory}
+                options={selectorOptions}
+                placeholder="Choose category..."
+              />
+            </div>
+            <div className={styles.searchForm}>
+              <SearchBar />
+            </div>
+          </div>
 
           {movies.length > 0 && <MovieList movies={movies} />}
 
