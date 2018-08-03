@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 // servises
-import fetchMoviesByCategory from '../../servises/api';
+import { fetchMoviesByCategory, fetchMoviesByTitle } from '../../servises/api';
+
 // components
 import CategorySelector from '../category-selector';
+import TitleSearch from '../title-search';
 import MovieList from '../movie-list';
-import SearchBar from '../search-bar';
+import Panel from '../shared-ui/panel';
 // options
 import selectorOptions from '../../selector-options';
 // styles
@@ -16,6 +18,7 @@ class App extends Component {
     category: null,
     movies: [],
     error: null,
+    filter: '',
   };
 
   // shouldComponentUpdate(nextProps, nextState) {
@@ -28,7 +31,8 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { category } = this.state;
-    // const { value } = category;
+
+    if (!prevState.category && !category) return;
 
     if (!prevState.category) {
       fetchMoviesByCategory({
@@ -53,12 +57,31 @@ class App extends Component {
 
   changeCategory = category => this.setState({ category });
 
+  changeFilter = ({ target }) => {
+    this.setState({ filter: target.value });
+  };
+
+  submitFilter = evt => {
+    evt.preventDefault();
+    const { filter } = this.state;
+    fetchMoviesByTitle({
+      title: filter,
+      onSuccess: this.handleFetchSuccess,
+      onError: this.handleFetchError,
+    });
+
+    this.setState({
+      filter: '',
+    });
+  };
+
   handleFetchSuccess = movies => this.setState({ movies });
 
   handleFetchError = error => this.setState({ error });
 
   render() {
-    const { category, movies, error } = this.state;
+    // console.log('render', Date.now());
+    const { category, movies, error, filter } = this.state;
     return (
       <div className={styles.wrapper}>
         <aside className={styles.aside}>
@@ -67,19 +90,19 @@ class App extends Component {
           </div>
         </aside>
         <main className={styles.main}>
-          <div className={styles.searhPanel}>
-            <div className={styles.searchForm}>
-              <CategorySelector
-                value={category}
-                onChange={this.changeCategory}
-                options={selectorOptions}
-                placeholder="Choose category..."
-              />
-            </div>
-            <div className={styles.searchForm}>
-              <SearchBar />
-            </div>
-          </div>
+          <Panel searhPanel>
+            <CategorySelector
+              value={category}
+              onChange={this.changeCategory}
+              options={selectorOptions}
+              placeholder="Choose category..."
+            />
+            <TitleSearch
+              onChange={this.changeFilter}
+              value={filter}
+              onClick={this.submitFilter}
+            />
+          </Panel>
 
           {movies.length > 0 && <MovieList movies={movies} />}
 
