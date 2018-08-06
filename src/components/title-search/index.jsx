@@ -9,27 +9,27 @@ import Icon from '../icon';
 // styles
 import styles from './styles.css';
 
-const TitleSearch = ({ filter, onChange, onClick }) => (
+const TitleSearch = ({ title, onSubmit, onChange }) => (
   <Panel searchBlock>
     <p>Search by title</p>
-    <div>
+    <form onSubmit={onSubmit}>
       <input
         className={styles.input}
-        value={filter}
+        value={title}
         onChange={onChange}
         type="text"
       />
-      <Button onClick={onClick}>
+      <Button>
         <Icon icon={ICONS.SEARCH} />
       </Button>
-    </div>
+    </form>
   </Panel>
 );
 
 TitleSearch.propTypes = {
-  filter: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default TitleSearch;

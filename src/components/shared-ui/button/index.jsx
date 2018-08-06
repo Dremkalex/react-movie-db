@@ -6,7 +6,7 @@ import styles from './styles.css';
 
 const Button = ({ active, onClick, children }) => (
   <button
-    type="button"
+    type="submit"
     className={active ? styles.active : styles.button}
     onClick={onClick}
   >
