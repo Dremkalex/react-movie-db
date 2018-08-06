@@ -18,7 +18,7 @@ class App extends Component {
     category: null,
     movies: [],
     error: null,
-    filter: '',
+    // filter: '',
   };
 
   // shouldComponentUpdate(nextProps, nextState) {
@@ -57,21 +57,15 @@ class App extends Component {
 
   changeCategory = category => this.setState({ category });
 
-  changeFilter = ({ target }) => {
-    this.setState({ filter: target.value });
-  };
+  // changeFilter = ({ target }) => {
+  //   this.setState({ filter: target.value });
+  // };
 
-  submitFilter = evt => {
-    evt.preventDefault();
-    const { filter } = this.state;
+  searchByTitle = value => {
     fetchMoviesByTitle({
-      title: filter,
+      title: value,
       onSuccess: this.handleFetchSuccess,
       onError: this.handleFetchError,
-    });
-
-    this.setState({
-      filter: '',
     });
   };
 
@@ -80,8 +74,7 @@ class App extends Component {
   handleFetchError = error => this.setState({ error });
 
   render() {
-    // console.log('render', Date.now());
-    const { category, movies, error, filter } = this.state;
+    const { category, movies, error } = this.state;
     return (
       <div className={styles.wrapper}>
         <aside className={styles.aside}>
@@ -97,11 +90,7 @@ class App extends Component {
               options={selectorOptions}
               placeholder="Choose category..."
             />
-            <TitleSearch
-              onChange={this.changeFilter}
-              value={filter}
-              onClick={this.submitFilter}
-            />
+            <TitleSearch onSubmit={this.searchByTitle} />
           </Panel>
 
           {movies.length > 0 && <MovieList movies={movies} />}

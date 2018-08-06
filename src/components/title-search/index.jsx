@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // components
 import Panel from '../shared-ui/panel';
@@ -9,27 +9,56 @@ import Icon from '../icon';
 // styles
 import styles from './styles.css';
 
-const TitleSearch = ({ filter, onChange, onClick }) => (
-  <Panel searchBlock>
-    <p>Search by title</p>
-    <div>
-      <input
-        className={styles.input}
-        value={filter}
-        onChange={onChange}
-        type="text"
-      />
-      <Button onClick={onClick}>
-        <Icon icon={ICONS.SEARCH} />
-      </Button>
-    </div>
-  </Panel>
-);
+class TitleSearch extends Component {
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  };
 
-TitleSearch.propTypes = {
-  filter: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
-};
+  state = {
+    title: '',
+  };
 
+  changeTitle = ({ target }) => {
+    this.setState({ title: target.value });
+  };
+
+  submitTitle = evt => {
+    evt.preventDefault();
+    const { title } = this.state;
+    const { onSubmit } = this.props;
+    onSubmit(title);
+    this.setState({ title: '' });
+  };
+
+  render() {
+    const { title } = this.state;
+
+    return (
+      <Panel searchBlock>
+        <form onSubmit={this.submitTitle}>
+          <p>Search by title</p>
+          <input
+            className={styles.input}
+            value={title}
+            onChange={this.changeTitle}
+            type="text"
+          />
+          <Button>
+            <Icon icon={ICONS.SEARCH} />
+          </Button>
+        </form>
+      </Panel>
+    );
+  }
+}
+
+// TitleSearch.propTypes = {
+//   filter: PropTypes.string,
+//   onChange: PropTypes.func.isRequired,
+//   onSubmit: PropTypes.func.isRequired,
+// };
+
+// TitleSearch.defaultProps = {
+//   filter: '',
+// };
 export default TitleSearch;
