@@ -1,0 +1,18 @@
+.title {
+  text-align: center;
+  border-bottom: 2px solid #000000;
+}
+
+.ul {
+  display: flex;
+  align-content: flex-start;
+  flex-flow: column nowrap;
+  margin: rem 0;
+  padding-left: 0;
+}
+
+.li {
+  display: flex;
+  list-style-type: none;
+  margin-bottom: 1rem;
+}

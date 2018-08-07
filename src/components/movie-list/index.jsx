@@ -6,19 +6,22 @@ import Movie from '../movie';
 import {
   getShortOverview,
   getReleaseDate,
-  IMG_URL,
+  imageUrl,
 } from '../../servises/movie-list';
 // styles
 import styles from './styles.css';
 
-const MovieList = ({ movies }) => (
+const MovieList = ({ movies, onClickAdd, onClickInfo }) => (
   <ul className={styles.ul}>
     {movies.map(movie => (
       <li key={movie.id} className={styles.li}>
         <Movie
-          url={IMG_URL + movie.poster_path}
+          url={imageUrl(movie.poster_path)}
           releaseDate={getReleaseDate(movie.release_date)}
           overview={getShortOverview(movie.overview)}
+          average={movie.vote_average}
+          onClickAdd={() => onClickAdd(movie)}
+          onClickInfo={onClickInfo}
         />
       </li>
     ))}
@@ -32,9 +35,11 @@ MovieList.propTypes = {
       title: PropTypes.string.isRequired,
       overview: PropTypes.string.isRequired,
       release_date: PropTypes.string.isRequired,
-      poster_path: PropTypes.string.isRequired,
+      poster_path: PropTypes.string,
     }).isRequired,
   ).isRequired,
+  onClickAdd: PropTypes.func.isRequired,
+  onClickInfo: PropTypes.func.isRequired,
 };
 
 export default MovieList;

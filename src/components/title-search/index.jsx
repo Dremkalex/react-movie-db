@@ -26,6 +26,9 @@ class TitleSearch extends Component {
     evt.preventDefault();
     const { title } = this.state;
     const { onSubmit } = this.props;
+
+    if (!title) return;
+
     onSubmit(title);
     this.setState({ title: '' });
   };
@@ -35,8 +38,8 @@ class TitleSearch extends Component {
 
     return (
       <Panel searchBlock>
-        <form onSubmit={this.submitTitle}>
-          <p>Search by title</p>
+        <form onSubmit={this.submitTitle} className={styles.form}>
+          <p className={styles.label}>Search by title</p>
           <input
             className={styles.input}
             value={title}

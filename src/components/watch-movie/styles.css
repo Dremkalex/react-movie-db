@@ -1,0 +1,21 @@
+.img {
+  display: flex;
+  width: 25%;
+  height: 100%;
+}
+
+.info {
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  flex-grow: 2;
+  font-size: 0.75rem;
+  padding: 0 0.5rem;
+}
+
+.buttonBox {
+  position: absolute;
+  display: flex;
+  bottom: 0;
+  right: 0;
+}

@@ -7,11 +7,21 @@
 
 .searhPanel {
   justify-content: flex-start;
+  flex-flow: row wrap;
   margin-bottom: 1rem;
 }
 
 .searchBlock {
   flex-flow: column;
   margin-right: 0.5rem;
-  min-width: 200px;
+  flex-basis: 40%;
+}
+
+.watchListPanel {
+  flex-flow: column nowrap;
+}
+
+.watchListItem {
+  width: 100%;
+  justify-content: flex-start;
 }

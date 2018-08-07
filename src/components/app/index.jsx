@@ -4,6 +4,7 @@ import { hot } from 'react-hot-loader';
 import { fetchMoviesByCategory, fetchMoviesByTitle } from '../../servises/api';
 
 // components
+import Watchlist from '../watchlist';
 import CategorySelector from '../category-selector';
 import TitleSearch from '../title-search';
 import MovieList from '../movie-list';
@@ -18,7 +19,7 @@ class App extends Component {
     category: null,
     movies: [],
     error: null,
-    // filter: '',
+    watchlist: [],
   };
 
   // shouldComponentUpdate(nextProps, nextState) {
@@ -28,8 +29,17 @@ class App extends Component {
   //   const shouldUpdate = category.value !== nextState.category.value;
   //   return shouldUpdate;
   // }
+  componentDidMount() {
+    const watchlist = localStorage.getItem('watchlist');
+    if (watchlist) {
+      this.setState({ watchlist: JSON.parse(watchlist) });
+    }
+  }
 
   componentDidUpdate(prevProps, prevState) {
+    const { watchlist } = this.state;
+    localStorage.setItem('watchlist', JSON.stringify(watchlist));
+
     const { category } = this.state;
 
     if (!prevState.category && !category) return;
@@ -73,14 +83,42 @@ class App extends Component {
 
   handleFetchError = error => this.setState({ error });
 
+  addWatchList = movie => {
+    const { watchlist } = this.state;
+    const { id } = movie;
+
+    const isMovieInWatchlist = watchlist.find(item => item.id === id);
+    if (isMovieInWatchlist) return;
+
+    this.setState(prevState => ({
+      watchlist: [movie, ...prevState.watchlist],
+    }));
+
+    // localStorage.setItem('watchlist', JSON.stringify(watchlist));
+  };
+
+  removeWatchlist = movie => {
+    const { watchlist } = this.state;
+    const { id } = movie;
+
+    const newWatchList = watchlist.filter(item => item.id !== id);
+
+    localStorage.setItem('watchlist', JSON.stringify(newWatchList));
+
+    this.setState({
+      watchlist: newWatchList,
+    });
+  };
+
   render() {
-    const { category, movies, error } = this.state;
+    const { category, movies, error, watchlist } = this.state;
     return (
       <div className={styles.wrapper}>
         <aside className={styles.aside}>
-          <div className={styles.watchlist}>
-            <h2>Watchlist</h2>
-          </div>
+          <Watchlist
+            watchlist={watchlist}
+            onClickRemove={this.removeWatchlist}
+          />
         </aside>
         <main className={styles.main}>
           <Panel searhPanel>
@@ -93,7 +131,9 @@ class App extends Component {
             <TitleSearch onSubmit={this.searchByTitle} />
           </Panel>
 
-          {movies.length > 0 && <MovieList movies={movies} />}
+          {movies.length > 0 && (
+            <MovieList movies={movies} onClickAdd={this.addWatchList} />
+          )}
 
           {error && <p>{error.message}</p>}
         </main>

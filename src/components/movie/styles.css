@@ -12,6 +12,17 @@
   display: block;
 }
 
+.average {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 0.5rem 0;
+  background-color: #2a93e8;
+  color: #fff;
+  font-weight: 600;
+}
+
 .buttonBox {
   position: absolute;
   top: 0.5rem;
@@ -19,6 +30,7 @@
   display: flex;
   padding: 8px;
   background-color: #fff;
+  opacity: 0.95;
   box-shadow: -2px 2px 5px 0px rgba(0, 0, 0, 0.75);
   border-radius: 0px 0px 0px 5px;
 }
