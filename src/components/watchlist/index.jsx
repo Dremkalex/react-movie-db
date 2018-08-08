@@ -8,7 +8,7 @@ import WatchMovie from '../watch-movie';
 // styles
 import styles from './styles.css';
 
-const Watchlist = ({ watchlist, onClickRemove }) => (
+const Watchlist = ({ watchlist, onClickRemove, onClickInfo }) => (
   <Panel watchListPanel>
     <h2 className={styles.title}>Watchlist</h2>
     {watchlist.length > 0 && (
@@ -18,6 +18,7 @@ const Watchlist = ({ watchlist, onClickRemove }) => (
             <WatchMovie
               movie={movie}
               onClickRemove={() => onClickRemove(movie)}
+              onClickInfo={() => onClickInfo(movie.id)}
             />
           </li>
         ))}
@@ -29,6 +30,7 @@ const Watchlist = ({ watchlist, onClickRemove }) => (
 Watchlist.propTypes = {
   watchlist: PropTypes.shape.isRequired,
   onClickRemove: PropTypes.func.isRequired,
+  onClickInfo: PropTypes.func.isRequired,
 };
 
 export default Watchlist;

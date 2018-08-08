@@ -10,7 +10,7 @@ import ICONS from '../icon/icons';
 // styles
 import styles from './styles.css';
 
-const WatchMovie = ({ movie, onClickRemove }) => (
+const WatchMovie = ({ movie, onClickRemove, onClickInfo }) => (
   <Panel watchListItem>
     <img
       src={imageUrl(movie.poster_path)}
@@ -25,7 +25,7 @@ const WatchMovie = ({ movie, onClickRemove }) => (
         <Button onClick={onClickRemove}>
           <Icon icon={ICONS.BIN} />
         </Button>
-        <Button>
+        <Button onClick={onClickInfo}>
           <Icon icon={ICONS.INFO} />
         </Button>
       </div>
@@ -36,6 +36,7 @@ const WatchMovie = ({ movie, onClickRemove }) => (
 WatchMovie.propTypes = {
   movie: PropTypes.shape.isRequired,
   onClickRemove: PropTypes.func.isRequired,
+  onClickInfo: PropTypes.func.isRequired,
 };
 
 export default WatchMovie;

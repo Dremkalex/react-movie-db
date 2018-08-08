@@ -1,0 +1,49 @@
+.modal {
+  position: absolute;
+  top: 10vh;
+  /* left: 20vw;
+  right: 20vw;
+  bottom: 10vh;*/
+  max-width: 500px;
+  padding: 0.5rem;
+  background-color: #fff;
+  outline: none;
+  font-family: 'Play', sans-serif;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  background-color: #9e9e9ec9;
+}
+
+.title {
+  margin: 0;
+}
+
+.tagline {
+  font-weight: 600;
+  font-style: italic;
+}
+
+.overview {
+  font-size: 0.85rem;
+  text-align: justify;
+}
+
+.genres {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0.5rem 0;
+  padding-left: 0;
+}
+
+.genreItem {
+  list-style-type: none;
+  margin: 0 1rem;
+}

@@ -22,3 +22,13 @@ export const fetchMoviesByTitle = ({ title, onSuccess, onError }) => {
     .then(onSuccess)
     .catch(onError);
 };
+
+export const fetchMovieInfo = ({ id, onSuccess, onError }) => {
+  const url = `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=en-US`;
+
+  return axios
+    .get(url)
+    .then(response => response.data)
+    .then(onSuccess)
+    .catch(onError);
+};

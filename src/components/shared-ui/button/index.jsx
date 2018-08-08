@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 // styles
 import styles from './styles.css';
 
-const Button = ({ active, onClick, children }) => (
+const Button = ({ btnModal, onClick, children }) => (
   <button
     type="submit"
-    className={active ? styles.active : styles.button}
+    className={btnModal ? styles.btnModal : styles.button}
     onClick={onClick}
   >
     {children}
@@ -15,13 +15,13 @@ const Button = ({ active, onClick, children }) => (
 );
 
 Button.propTypes = {
-  active: PropTypes.bool,
+  btnModal: PropTypes.bool,
   onClick: PropTypes.func,
   children: PropTypes.element.isRequired,
 };
 
 Button.defaultProps = {
-  active: false,
+  btnModal: false,
   onClick: () => null,
 };
 

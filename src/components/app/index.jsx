@@ -9,6 +9,7 @@ import CategorySelector from '../category-selector';
 import TitleSearch from '../title-search';
 import MovieList from '../movie-list';
 import Panel from '../shared-ui/panel';
+import MovieInfoModal from '../movie-info-modal';
 // options
 import selectorOptions from '../../selector-options';
 // styles
@@ -20,6 +21,8 @@ class App extends Component {
     movies: [],
     error: null,
     watchlist: [],
+    movieID: null,
+    showModal: false,
   };
 
   // shouldComponentUpdate(nextProps, nextState) {
@@ -65,23 +68,15 @@ class App extends Component {
     }
   }
 
-  changeCategory = category => this.setState({ category });
-
   // changeFilter = ({ target }) => {
   //   this.setState({ filter: target.value });
   // };
 
-  searchByTitle = value => {
-    fetchMoviesByTitle({
-      title: value,
-      onSuccess: this.handleFetchSuccess,
-      onError: this.handleFetchError,
-    });
+  handleOpenModal = movieID => {
+    this.setState({ movieID, showModal: true });
   };
 
-  handleFetchSuccess = movies => this.setState({ movies });
-
-  handleFetchError = error => this.setState({ error });
+  handleCloseModal = () => this.setState({ movieID: null, showModal: false });
 
   addWatchList = movie => {
     const { watchlist } = this.state;
@@ -103,21 +98,53 @@ class App extends Component {
 
     const newWatchList = watchlist.filter(item => item.id !== id);
 
-    localStorage.setItem('watchlist', JSON.stringify(newWatchList));
+    // localStorage.setItem('watchlist', JSON.stringify(newWatchList));
 
-    this.setState({
-      watchlist: newWatchList,
+    this.setState(
+      {
+        watchlist: newWatchList,
+      },
+      () => localStorage.setItem('watchlist', JSON.stringify(newWatchList)),
+    );
+  };
+
+  handleFetchSuccess = movies => this.setState({ movies });
+
+  handleFetchError = error => this.setState({ error });
+
+  searchByTitle = value => {
+    fetchMoviesByTitle({
+      title: value,
+      onSuccess: this.handleFetchSuccess,
+      onError: this.handleFetchError,
     });
   };
 
+  changeCategory = category => this.setState({ category });
+
   render() {
-    const { category, movies, error, watchlist } = this.state;
+    const {
+      category,
+      movies,
+      error,
+      watchlist,
+      movieID,
+      showModal,
+    } = this.state;
     return (
       <div className={styles.wrapper}>
+        {showModal && (
+          <MovieInfoModal
+            movieID={movieID}
+            showModal={showModal}
+            onClose={this.handleCloseModal}
+          />
+        )}
         <aside className={styles.aside}>
           <Watchlist
             watchlist={watchlist}
             onClickRemove={this.removeWatchlist}
+            onClickInfo={this.handleOpenModal}
           />
         </aside>
         <main className={styles.main}>
@@ -132,7 +159,11 @@ class App extends Component {
           </Panel>
 
           {movies.length > 0 && (
-            <MovieList movies={movies} onClickAdd={this.addWatchList} />
+            <MovieList
+              movies={movies}
+              onClickAdd={this.addWatchList}
+              onClickInfo={this.handleOpenModal}
+            />
           )}
 
           {error && <p>{error.message}</p>}

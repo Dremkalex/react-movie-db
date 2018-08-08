@@ -21,7 +21,7 @@ const MovieList = ({ movies, onClickAdd, onClickInfo }) => (
           overview={getShortOverview(movie.overview)}
           average={movie.vote_average}
           onClickAdd={() => onClickAdd(movie)}
-          onClickInfo={onClickInfo}
+          onClickInfo={() => onClickInfo(movie.id)}
         />
       </li>
     ))}

@@ -15,7 +15,18 @@
   text-transform: uppercase;
 }
 
-.active {
-  composes: button;
+.button:hover {
   background-color: #d8e2e1;
 }
+
+.btnModal {
+  composes: button;
+  position: absolute;
+  top: 0.75rem;
+  right: 0.5rem;
+}
+
+/* .active {
+  composes: button;
+  background-color: #d8e2e1;
+} */
