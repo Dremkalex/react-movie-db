@@ -7,9 +7,12 @@ import { fetchMoviesByCategory, fetchMoviesByTitle } from '../../servises/api';
 import Watchlist from '../watchlist';
 import CategorySelector from '../category-selector';
 import TitleSearch from '../title-search';
+import MyBulletListLoader from '../shared-ui/loader/bulletlist';
+import ErrorNotification from '../shared-ui/error-notification';
 import MovieList from '../movie-list';
 import Panel from '../shared-ui/panel';
 import MovieInfoModal from '../movie-info-modal';
+
 // options
 import selectorOptions from '../../selector-options';
 // styles
@@ -19,6 +22,7 @@ class App extends Component {
   state = {
     category: null,
     movies: [],
+    isLoading: false,
     error: null,
     watchlist: [],
     movieID: null,
@@ -48,6 +52,7 @@ class App extends Component {
     if (!prevState.category && !category) return;
 
     if (!prevState.category) {
+      this.handleFetch();
       fetchMoviesByCategory({
         category: category.value,
         onSuccess: this.handleFetchSuccess,
@@ -60,6 +65,7 @@ class App extends Component {
     const prevCategory = prevState.category;
 
     if (prevCategory.value !== category.value) {
+      this.handleFetch();
       fetchMoviesByCategory({
         category: category.value,
         onSuccess: this.handleFetchSuccess,
@@ -108,9 +114,13 @@ class App extends Component {
     );
   };
 
-  handleFetchSuccess = movies => this.setState({ movies });
+  handleFetchSuccess = movies => this.setState({ movies, isLoading: false });
 
-  handleFetchError = error => this.setState({ error });
+  handleFetchError = error => this.setState({ error, isLoading: false });
+
+  handleFetch = () => {
+    this.setState({ isLoading: true, error: null });
+  };
 
   searchByTitle = value => {
     fetchMoviesByTitle({
@@ -126,6 +136,7 @@ class App extends Component {
     const {
       category,
       movies,
+      isLoading,
       error,
       watchlist,
       movieID,
@@ -158,6 +169,10 @@ class App extends Component {
             <TitleSearch onSubmit={this.searchByTitle} />
           </Panel>
 
+          {error && <ErrorNotification message={error.message} />}
+
+          {isLoading && <MyBulletListLoader />}
+
           {movies.length > 0 && (
             <MovieList
               movies={movies}
@@ -165,8 +180,6 @@ class App extends Component {
               onClickInfo={this.handleOpenModal}
             />
           )}
-
-          {error && <p>{error.message}</p>}
         </main>
       </div>
     );

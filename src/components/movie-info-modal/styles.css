@@ -5,6 +5,7 @@
   right: 20vw;
   bottom: 10vh;*/
   max-width: 500px;
+  min-width: 320px;
   padding: 0.5rem;
   background-color: #fff;
   outline: none;
@@ -45,5 +46,6 @@
 
 .genreItem {
   list-style-type: none;
-  margin: 0 1rem;
+  margin: 0 0.5rem;
+  font-size: 0.85rem;
 }
