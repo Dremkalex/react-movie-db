@@ -28,7 +28,11 @@ const Watchlist = ({ watchlist, onClickRemove, onClickInfo }) => (
 );
 
 Watchlist.propTypes = {
-  watchlist: PropTypes.shape.isRequired,
+  watchlist: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+    }),
+  ).isRequired,
   onClickRemove: PropTypes.func.isRequired,
   onClickInfo: PropTypes.func.isRequired,
 };

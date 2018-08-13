@@ -34,7 +34,12 @@ const WatchMovie = ({ movie, onClickRemove, onClickInfo }) => (
 );
 
 WatchMovie.propTypes = {
-  movie: PropTypes.shape.isRequired,
+  movie: PropTypes.shape({
+    poster_path: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    release_date: PropTypes.string.isRequired,
+    vote_average: PropTypes.number.isRequired,
+  }).isRequired,
   onClickRemove: PropTypes.func.isRequired,
   onClickInfo: PropTypes.func.isRequired,
 };
